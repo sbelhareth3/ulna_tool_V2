@@ -68,7 +68,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'docker_ulna_tool.wsgi.application'
+WSGI_APPLICATION = 'ulna_tool.wsgi.application'
 
 
 # Database
