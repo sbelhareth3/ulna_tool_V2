@@ -21,16 +21,10 @@ settings = {
 }
 smart = client.FHIRClient(settings=settings)
 
-# since this is proof of concept, we use a dictionary, but this is where we connect to patient database
-patient_db = {
-    "Bradly Pfannerstill": "c20ccf5d-19ac-4dfe-bdc3-3d1d6344facc",
-    "Morgan Gislason": "9af8e1d3-885b-4356-bf48-b60297671f9b",
-}
-
 
 
 # calculator code
-def ulna_to_height(sex, age, ulna_length, race, FEV1, FVC):
+def ulna_to_height(name, sex, age, ulna_length, race, FEV1, FVC):
     """Requires:
         sex                             - "male" or "female" string
         age                             - string or int
@@ -70,7 +64,8 @@ def ulna_to_height(sex, age, ulna_length, race, FEV1, FVC):
                 "PRD_FVC":PRD_FVC,
                 "PRD_FEV1":PRD_FEV1,
                 "FVC_fraction": FVC_fraction,
-                "FEV1_fraction": FEV1_fraction
+                "FEV1_fraction": FEV1_fraction,
+                "name": name
                 }
     
     
@@ -143,32 +138,32 @@ def home(request):
     template = loader.get_template('calculator/calculator.html')
     context = {}
 
-    if request.POST.get('patients', False) != 'empty':
-        context = {'name': request.POST.get('patients', False), "pats": patient_db}
-        
-    if request.method == 'POST' and request.POST.get('patients', False) != 'empty':
 
-        p_id = patient_db[request.POST.get('patients', False)]
+    if request.method == 'POST':
+
+        p_id = request.POST['patient_id']
         patient = p.Patient.read(p_id, smart.server)
+        first_name = patient.name[0].given[0]
+        # print(first_name)
+        last_name = patient.name[0].family
+        name = first_name + ' ' + last_name
         sex = patient.gender
         age = date.today().year - int(patient.birthDate.as_json()[:4])
         ulna_length = request.POST['ulna_length']
-        print(dir(patient))
+        # print(dir(patient))
         race = request.POST['race']
         FEV1 = request.POST['FEV1']
         FVC = request.POST['FVC']
         
         # calling the calculator
-        calculation = ulna_to_height(sex=sex, age=age, ulna_length=ulna_length, race=race, FEV1=FEV1, FVC=FVC)
-
+        calculation = ulna_to_height(name = name, sex=sex, age=age, ulna_length=ulna_length, race=race, FEV1=FEV1, FVC=FVC)
+        print(calculation)
         # checking if the calculation was a success
         if calculation['status'] == 200:
             result = calculation
 
             context = {
                 "result": result,
-                "name": request.POST.get('patients', False),
-                "pats": patient_db
             }
         else:
             result = calculation['errors']

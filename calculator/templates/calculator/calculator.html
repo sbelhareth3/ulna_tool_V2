@@ -14,7 +14,7 @@
         <h1>Ulna Length to Standing Height Calculator</h1>
         <hr />
         <form action='/' method="POST">
-            <div class="mb-3">
+           <!--  <div class="mb-3">
                 <label for="patients" class="form-label">Choose a Patient:</label>
                 <select name="patients" id="patients" class="form-select">
                     <option value="empty"></option>
@@ -28,13 +28,13 @@
                     {% endfor %}
                     
                 </select>
+            </div>                     
+        <hr /> -->
+        <div class="mb-3">
+                <label for="patient_id" class="form-label">Patient ID:</label>
+                <input id="patient_id" name="patient_id" class="element text medium" type="text" maxlength="255" value="">
             </div>
-            </div>                      
-<!--             <ul >
-            
-                    <li id="li_1" > -->
-        <hr />
-        <label class="description" for="race">Race </label>
+        <label class="description" for="race">Race: </label>
         <div>
              <div class="mb-3">
                 <select class="element select medium" id="race" name="race"> 
@@ -66,7 +66,7 @@
             <div class="card">
                 <h5 class="card-header">Patient Information</h5>
                 <div class="card-body">
-                    <p class="card-text">Name: {{name}}</p>
+                    <p class="card-text">Name: {{result.name}}</p>
                     <p class="card-text">Sex: {{result.sex}}</p>
                     <p class="card-text">Age: {{result.age}}</p>
                     <p class="card-text">Ulna Length (cm): {{result.ulna_length}}</p>
@@ -87,7 +87,7 @@
             <div class="card">
                 <h5 class="card-header">The request contained errors and was unable to process.</h5>
                 <div class="card-body">
-                    <p class="card-text">Name: {{name}}</p>
+                    <p class="card-text">Name: {{result.name}}</p>
                     <p class="card-text">Sex: {{result.sex}}</p>
                     <p class="card-text">Age: {{result.age}}</p>
                     <p class="card-text">Ulna Length (cm): {{result.ulna_length}}</p>
