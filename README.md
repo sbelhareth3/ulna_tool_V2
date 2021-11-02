@@ -24,7 +24,7 @@ to make sure you have django installed correctly.
 
 # Ulna Length Tool
 
-In order to start the Django backend, type:
+In order to start the web application, navigate to , type:
 
 ```python manage.py runserver```
 
