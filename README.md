@@ -24,7 +24,7 @@ to make sure you have django installed correctly.
 
 # Ulna Length Tool
 
-In order to start the web application, navigate to , type:
+In order to start the web application, navigate to the directory containing this folder, run the following command:
 
 ```python manage.py runserver```
 
